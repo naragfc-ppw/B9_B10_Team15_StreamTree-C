@@ -1,0 +1,8 @@
+build/
+*.o
+*.exe
+*.dll
+*.so
+results/*.tmp
+/streamtree
+/test_drift

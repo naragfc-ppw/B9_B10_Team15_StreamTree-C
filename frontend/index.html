@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamTree-C | Monitoring Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">ST</div>
+            <div>
+                <h2>StreamTree<span>-C</span></h2>
+                <small>STREAM ANALYTICS</small>
+            </div>
+        </div>
+
+        <div class="nav-label">WORKSPACE</div>
+        <a class="nav-item active" href="#overview">▦ &nbsp; Overview</a>
+        <a class="nav-item" href="#performance">◷ &nbsp; Performance</a>
+        <a class="nav-item" href="#drift">⌁ &nbsp; Drift Monitor</a>
+        <a class="nav-item" href="#records">▤ &nbsp; Stream Records</a>
+
+        <div class="sidebar-bottom">
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>System Ready</strong>
+                    <small>C engine connected via CSV</small>
+                </div>
+            </div>
+            <p>TEAM 15 · BATCH 9 &amp; 10</p>
+        </div>
+    </aside>
+
+    <main class="main-content" id="overview">
+
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">MACHINE LEARNING / MONITORING</p>
+                <h1>Dashboard Overview</h1>
+                <p class="subtitle">Monitor your incremental decision tree in real time.</p>
+            </div>
+            <button class="refresh-btn" id="refreshBtn">↻ &nbsp; Refresh Data</button>
+        </header>
+
+        <section class="overview-row">
+            <div>
+                <span class="live-dot"></span>
+                <span class="live-label">STREAM MONITORING</span>
+            </div>
+            <span class="updated" id="lastUpdated">Waiting for data...</span>
+        </section>
+
+        <section class="metrics-grid">
+
+            <article class="metric-card">
+                <div class="metric-top">
+                    <span>Total Samples</span>
+                    <span class="metric-icon blue">▤</span>
+                </div>
+                <h2 id="totalSamples">—</h2>
+                <p>Samples evaluated</p>
+            </article>
+
+            <article class="metric-card">
+                <div class="metric-top">
+                    <span>Prequential Accuracy</span>
+                    <span class="metric-icon green">◈</span>
+                </div>
+                <h2 id="accuracy">—</h2>
+                <p>Test-then-train performance</p>
+            </article>
+
+            <article class="metric-card">
+                <div class="metric-top">
+                    <span>Macro F1-Score</span>
+                    <span class="metric-icon purple">◎</span>
+                </div>
+                <h2 id="macroF1">—</h2>
+                <p>Classification performance</p>
+            </article>
+
+            <article class="metric-card">
+                <div class="metric-top">
+                    <span>Tree Nodes</span>
+                    <span class="metric-icon orange">⌘</span>
+                </div>
+                <h2 id="treeNodes">—</h2>
+                <p>Current / maximum budget</p>
+            </article>
+
+        </section>
+
+        <section class="content-grid" id="performance">
+
+            <article class="panel chart-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Prediction Accuracy</h3>
+                        <p>Rolling accuracy across incoming samples</p>
+                    </div>
+                    <span class="chart-tag">PERFORMANCE</span>
+                </div>
+                <div class="chart-wrap">
+                    <canvas id="accuracyChart"></canvas>
+                </div>
+            </article>
+
+            <article class="panel drift-panel" id="drift">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Drift Detection</h3>
+                        <p>DDM-inspired monitoring status</p>
+                    </div>
+                </div>
+
+                <div class="drift-status" id="driftStatus">
+                    <div class="drift-symbol">✓</div>
+                    <h2>Awaiting Data</h2>
+                    <p>Load the stream results to inspect detector status.</p>
+                </div>
+
+                <div class="drift-details">
+                    <div><span>Warning observations</span><strong id="warnings">—</strong></div>
+                    <div><span>Drift alarms</span><strong id="alarms">—</strong></div>
+                    <div><span>First drift alarm</span><strong id="firstAlarm">—</strong></div>
+                    <div><span>Known drift point</span><strong id="driftPoint">—</strong></div>
+                </div>
+            </article>
+
+        </section>
+
+        <section class="panel timeline-panel" id="timeline">
+    <div class="panel-heading">
+        <div>
+            <h3>Concept Drift Timeline</h3>
+            <p>Known concept change compared with detector observations</p>
+        </div>
+        <span class="chart-tag">DRIFT ANALYSIS</span>
+    </div>
+
+    <div class="timeline-track" id="timelineTrack">
+        <div class="timeline-line"></div>
+        <div class="timeline-event">
+            <span class="timeline-marker known"></span>
+            <strong>Sample 1500</strong>
+            <small>Known injected concept change</small>
+        </div>
+    </div>
+
+    <div class="timeline-legend">
+        <span><i class="legend-known"></i> Known concept change</span>
+        <span><i class="legend-warning"></i> Detector warning</span>
+        <span><i class="legend-alarm"></i> Confirmed drift alarm</span>
+    </div>
+</section>
+        <section class="panel records-panel" id="records">
+            <div class="panel-heading">
+                <div>
+                    <h3>Stream Records</h3>
+                    <p>Latest observations from the prequential evaluation</p>
+                </div>
+                <span class="chart-tag">CSV DATA</span>
+            </div>
+
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sample</th>
+                            <th>Actual</th>
+                            <th>Predicted</th>
+                            <th>Result</th>
+                            <th>Concept</th>
+                            <th>Nodes</th>
+                            <th>DDM Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordsBody">
+                        <tr>
+                            <td colspan="7" class="empty-state">
+                                No records loaded yet.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            <span>StreamTree-C · Incremental Decision Tree Framework</span>
+            <span>TEAM 15 · BATCH 9 &amp; 10</span>
+        </footer>
+
+    </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
